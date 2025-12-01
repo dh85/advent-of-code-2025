@@ -3,13 +3,27 @@
 
 import PackageDescription
 
+let years = 2015...2025
+let yearTargets = years.map { year in
+    Target.target(
+        name: "Year\(year)",
+        dependencies: ["AoCCommon"]
+            + (year == 2015 ? [.product(name: "Crypto", package: "swift-crypto")] : []),
+        resources: [.process("Resources")]
+    )
+}
+let yearDependencies = years.map { "Year\($0)" } + ["AoCCommon"]
+
 let package = Package(
-    name: "AOC25",
+    name: "AdventOfCode",
+    platforms: [.macOS(.v15)],
+    products: [.executable(name: "AoCApp", targets: ["App"])],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.0.0")
+    ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .executableTarget(
-            name: "AOC25", resources: [.process("Inputs")]
-        )
+        .target(name: "AoCCommon")
+    ] + yearTargets + [
+        .executableTarget(name: "App", dependencies: yearDependencies.map { .byName(name: $0) })
     ]
 )

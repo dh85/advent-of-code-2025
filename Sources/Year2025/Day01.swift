@@ -1,15 +1,20 @@
-struct Day01: DaySolver {
-    struct Instruction: Equatable {
-        let direction: Character
-        let distance: Int
+import AoCCommon
+import Foundation
+
+public struct Day01: DaySolver {
+    public struct Instruction: Equatable {
+        public let direction: Character
+        public let distance: Int
     }
 
-    typealias ParsedData = [Instruction]
-    typealias Result1 = Int
-    typealias Result2 = Int
+    public typealias ParsedData = [Instruction]
+    public typealias Result1 = Int
+    public typealias Result2 = Int
 
-    let day = 1
-    let testInput = """
+    public init() {}
+
+    public let day = 1
+    public let testInput = """
         L68
         L30
         R48
@@ -22,7 +27,7 @@ struct Day01: DaySolver {
         L82
         """
 
-    func parse(input: String) -> [Instruction]? {
+    public func parse(input: String) -> [Instruction]? {
         input.components(separatedBy: .newlines)
             .filter { !$0.isEmpty }
             .map { Instruction(direction: $0.first!, distance: Int(String($0.dropFirst()))!) }
@@ -34,7 +39,7 @@ struct Day01: DaySolver {
             : (position + steps) % 100
     }
 
-    func solvePart1(data: [Instruction]) -> Int {
+    public func solvePart1(data: [Instruction]) -> Int {
         var position = 50
         var zeroCount = 0
 
@@ -47,7 +52,7 @@ struct Day01: DaySolver {
         return zeroCount
     }
 
-    func solvePart2(data: [Instruction]) -> Int {
+    public func solvePart2(data: [Instruction]) -> Int {
         var position = 50
         var zeroCount = 0
 
