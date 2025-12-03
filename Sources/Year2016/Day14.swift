@@ -49,12 +49,12 @@ public struct Day14: DaySolver {
         func hash(_ index: Int) -> UnsafeBufferPointer<UInt8> {
             UnsafeBufferPointer(start: ptr.advanced(by: index * 32), count: 32)
         }
-        
+
         @inline(__always)
         func setQuintuples(_ index: Int, _ mask: UInt16) {
             quintuples[index] = mask
         }
-        
+
         @inline(__always)
         func hasQuintuple(_ index: Int, _ charIndex: UInt8) -> Bool {
             (quintuples[index] & (1 << charIndex)) != 0
@@ -148,7 +148,7 @@ public struct Day14: DaySolver {
         var mask: UInt16 = 0
         var count: UInt8 = 1
         var lastChar = hash[0]
-        
+
         for i in 1..<32 {
             if hash[i] == lastChar {
                 count += 1
@@ -230,13 +230,13 @@ public struct Day14: DaySolver {
                 }
             }
         }
-        
+
         // Compute quintuple masks in parallel (cheap compared to MD5)
         DispatchQueue.concurrentPerform(iterations: numThreads) { threadId in
             let chunkSize = (batchSize + numThreads - 1) / numThreads
             let start = threadId * chunkSize
             let end = min(start + chunkSize, batchSize)
-            
+
             for i in start..<end {
                 storage.setQuintuples(i, Self.computeQuintupleMask(storage.hash(i)))
             }
