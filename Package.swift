@@ -8,7 +8,8 @@ let yearTargets = years.map { year in
     Target.target(
         name: "Year\(year)",
         dependencies: ["AoCCommon"]
-            + (year == 2015 ? [.product(name: "Crypto", package: "swift-crypto")] : []),
+            + ([2015, 2016].contains(year)
+                ? [.product(name: "Crypto", package: "swift-crypto")] : []),
         resources: [.process("Resources")]
     )
 }
