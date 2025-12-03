@@ -1,17 +1,7 @@
 import AoCCommon
 
 public struct Day19: DaySolver {
-    public struct Replacement: Equatable {
-        let from: String
-        let to: String
-    }
-
-    public struct Input: Equatable {
-        let replacements: [Replacement]
-        let molecule: String
-    }
-
-    public typealias ParsedData = Input
+    public typealias ParsedData = (replacements: [(from: String, to: String)], molecule: String)
     public typealias Result1 = Int
     public typealias Result2 = Int
 
@@ -28,21 +18,22 @@ public struct Day19: DaySolver {
     public let expectedTestResult1: Result1? = 4
     public let expectedTestResult2: Result2? = 2
 
-    public func parse(input: String) -> Input? {
+    public func parse(input: String) -> ParsedData? {
         let parts = input.components(separatedBy: "\n\n")
         guard parts.count == 2 else { return nil }
 
         let replacements = parts[0].split(separator: "\n").map { line in
             let components = line.split(separator: " ")
-            return Replacement(from: String(components[0]), to: String(components[2]))
+            return (from: String(components[0]), to: String(components[2]))
         }
 
-        return Input(
+        return (
             replacements: replacements,
-            molecule: parts[1].trimmingCharacters(in: .whitespacesAndNewlines))
+            molecule: parts[1].trimmingCharacters(in: .whitespacesAndNewlines)
+        )
     }
 
-    public func solvePart1(data: Input) -> Int {
+    public func solvePart1(data: ParsedData) -> Int {
         Set(
             data.replacements.flatMap { replacement in
                 allReplacements(in: data.molecule, from: replacement.from, to: replacement.to)
@@ -60,7 +51,7 @@ public struct Day19: DaySolver {
         return results
     }
 
-    public func solvePart2(data: Input) -> Int {
+    public func solvePart2(data: ParsedData) -> Int {
         let m = data.molecule
         let elements = m.filter { $0.isUppercase }.count
         let rn = count(m, "Rn")

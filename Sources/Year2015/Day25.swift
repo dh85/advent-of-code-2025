@@ -2,12 +2,7 @@ import AoCCommon
 import Foundation
 
 public struct Day25: DaySolver {
-    public struct Position: Equatable {
-        let row: Int
-        let col: Int
-    }
-
-    public typealias ParsedData = Position
+    public typealias ParsedData = (row: Int, col: Int)
     public typealias Result1 = Int
     public typealias Result2 = Int
 
@@ -19,13 +14,13 @@ public struct Day25: DaySolver {
     public let expectedTestResult1: Result1? = 32_451_966
     public let expectedTestResult2: Result2? = 0
 
-    public func parse(input: String) -> Position? {
+    public func parse(input: String) -> ParsedData? {
         let numbers = input.integers
         guard numbers.count >= 2 else { return nil }
-        return Position(row: numbers[0], col: numbers[1])
+        return (row: numbers[0], col: numbers[1])
     }
 
-    public func solvePart1(data: Position) -> Int {
+    public func solvePart1(data: ParsedData) -> Int {
         let d = data.row + data.col - 1
         let index = d * (d - 1) / 2 + data.col
         var code = 20_151_125
@@ -37,7 +32,7 @@ public struct Day25: DaySolver {
         return code
     }
 
-    public func solvePart2(data: Position) -> Int {
+    public func solvePart2(data: ParsedData) -> Int {
         // Part 2 is automatically completed when all other puzzles are solved
         0
     }

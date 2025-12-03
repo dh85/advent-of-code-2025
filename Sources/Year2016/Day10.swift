@@ -1,24 +1,14 @@
 import AoCCommon
 
 public struct Day10: DaySolver {
-    public struct Rule: Equatable {
+    public struct Rule {
         let lowToBot: Bool
         let lowId: Int
         let highToBot: Bool
         let highId: Int
     }
 
-    public struct Value: Equatable {
-        let chip: Int
-        let bot: Int
-    }
-
-    public struct Input: Equatable {
-        let values: [Value]
-        let rules: [Int: Rule]
-    }
-
-    public typealias ParsedData = Input
+    public typealias ParsedData = (values: [(chip: Int, bot: Int)], rules: [Int: Rule])
     public typealias Result1 = Int
     public typealias Result2 = Int
 
@@ -36,14 +26,14 @@ public struct Day10: DaySolver {
     public let expectedTestResult1: Result1? = 2
     public let expectedTestResult2: Result2? = 30
 
-    public func parse(input: String) -> Input? {
-        var values: [Value] = []
+    public func parse(input: String) -> ParsedData? {
+        var values: [(chip: Int, bot: Int)] = []
         var rules: [Int: Rule] = [:]
 
         for line in input.lines {
             let nums = line.integers
             if line.hasPrefix("value") {
-                values.append(Value(chip: nums[0], bot: nums[1]))
+                values.append((chip: nums[0], bot: nums[1]))
             } else {
                 rules[nums[0]] = Rule(
                     lowToBot: line.contains("low to bot"),
@@ -53,10 +43,10 @@ public struct Day10: DaySolver {
                 )
             }
         }
-        return Input(values: values, rules: rules)
+        return (values: values, rules: rules)
     }
 
-    private func simulate(_ input: Input, targetLow: Int, targetHigh: Int) -> (
+    private func simulate(_ input: ParsedData, targetLow: Int, targetHigh: Int) -> (
         bot: Int, outputs: [Int]
     ) {
         var bots = [[Int]](repeating: [], count: 256)
@@ -100,13 +90,13 @@ public struct Day10: DaySolver {
         return (comparingBot, outputs)
     }
 
-    public func solvePart1(data: Input) -> Int {
+    public func solvePart1(data: ParsedData) -> Int {
         let isTest = data.values.count < 10
         let (targetLow, targetHigh) = isTest ? (2, 5) : (17, 61)
         return simulate(data, targetLow: targetLow, targetHigh: targetHigh).bot
     }
 
-    public func solvePart2(data: Input) -> Int {
+    public func solvePart2(data: ParsedData) -> Int {
         let outputs = simulate(data, targetLow: 17, targetHigh: 61).outputs
         return outputs[0] * outputs[1] * outputs[2]
     }

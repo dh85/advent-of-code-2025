@@ -2,12 +2,7 @@ import AoCCommon
 import Foundation
 
 public struct Day01: DaySolver {
-    public struct Instruction: Equatable {
-        public let direction: Character
-        public let distance: Int
-    }
-
-    public typealias ParsedData = [Instruction]
+    public typealias ParsedData = [(direction: Character, distance: Int)]
     public typealias Result1 = Int
     public typealias Result2 = Int
 
@@ -27,10 +22,10 @@ public struct Day01: DaySolver {
         L82
         """
 
-    public func parse(input: String) -> [Instruction]? {
+    public func parse(input: String) -> ParsedData? {
         input.components(separatedBy: .newlines)
             .filter { !$0.isEmpty }
-            .map { Instruction(direction: $0.first!, distance: Int(String($0.dropFirst()))!) }
+            .map { (direction: $0.first!, distance: Int(String($0.dropFirst()))!) }
     }
 
     private func move(_ position: Int, direction: Character, steps: Int) -> Int {
@@ -39,7 +34,7 @@ public struct Day01: DaySolver {
             : (position + steps) % 100
     }
 
-    public func solvePart1(data: [Instruction]) -> Int {
+    public func solvePart1(data: ParsedData) -> Int {
         var position = 50
         var zeroCount = 0
 
@@ -52,7 +47,7 @@ public struct Day01: DaySolver {
         return zeroCount
     }
 
-    public func solvePart2(data: [Instruction]) -> Int {
+    public func solvePart2(data: ParsedData) -> Int {
         var position = 50
         var zeroCount = 0
 

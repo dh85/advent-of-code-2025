@@ -1,7 +1,7 @@
 import Foundation
 
 public protocol DaySolver {
-    associatedtype ParsedData: Equatable
+    associatedtype ParsedData
     associatedtype Result1: Equatable
     associatedtype Result2: Equatable
 

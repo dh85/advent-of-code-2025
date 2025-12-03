@@ -2,12 +2,7 @@ import AoCCommon
 import Foundation
 
 public struct Day02: DaySolver {
-    public struct Range: Equatable {
-        public let start: Int
-        public let end: Int
-    }
-
-    public typealias ParsedData = [Range]
+    public typealias ParsedData = [(start: Int, end: Int)]
     public typealias Result1 = Int
     public typealias Result2 = Int
 
@@ -18,7 +13,7 @@ public struct Day02: DaySolver {
         11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124
         """
 
-    public func parse(input: String) -> [Range]? {
+    public func parse(input: String) -> ParsedData? {
         let line = input.trimmingCharacters(in: .whitespacesAndNewlines)
         let rangeStrings = line.components(separatedBy: ",").filter { !$0.isEmpty }
 
@@ -30,7 +25,7 @@ public struct Day02: DaySolver {
             else {
                 return nil
             }
-            return Range(start: start, end: end)
+            return (start: start, end: end)
         }
     }
 
@@ -61,13 +56,13 @@ public struct Day02: DaySolver {
         return false
     }
 
-    public func solvePart1(data: [Range]) -> Int {
+    public func solvePart1(data: ParsedData) -> Int {
         data.flatMap { $0.start...$0.end }
             .filter { hasRepeatedPattern($0, exactlyTwice: true) }
             .sum()
     }
 
-    public func solvePart2(data: [Range]) -> Int {
+    public func solvePart2(data: ParsedData) -> Int {
         data.flatMap { $0.start...$0.end }
             .filter { hasRepeatedPattern($0, exactlyTwice: false) }
             .sum()
