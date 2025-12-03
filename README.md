@@ -7,8 +7,8 @@ Swift solutions for [Advent of Code](https://adventofcode.com).
 | Year | Days Completed |
 |------|----------------|
 | 2015 | 25/25 ⭐ |
-| 2016 | 7/25 |
-| 2025 | 3/25 |
+| 2016 | 25/25 ⭐ |
+| 2025 | 3/12 |
 
 ## Requirements
 
