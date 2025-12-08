@@ -8,7 +8,7 @@ Swift solutions for [Advent of Code](https://adventofcode.com).
 |------|----------------|
 | 2015 | 25/25 ⭐ |
 | 2016 | 25/25 ⭐ |
-| 2025 | 3/12 |
+| 2025 | 8/12 |
 
 ## Requirements
 
