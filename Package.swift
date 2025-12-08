@@ -9,7 +9,9 @@ let yearTargets = years.map { year in
         name: "Year\(year)",
         dependencies: ["AoCCommon"]
             + ([2015, 2016].contains(year)
-                ? [.product(name: "Crypto", package: "swift-crypto")] : []),
+                ? [.product(name: "Crypto", package: "swift-crypto")] : [])
+            + ([2025].contains(year)
+                ? [.product(name: "BigInt", package: "BigInt")] : []),
         resources: [.process("Resources")]
     )
 }
@@ -20,7 +22,8 @@ let package = Package(
     platforms: [.macOS(.v15)],
     products: [.executable(name: "AoCApp", targets: ["App"])],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.0.0")
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.0.0"),
+        .package(url: "https://github.com/attaswift/BigInt.git", from: "5.3.0")
     ],
     targets: [
         .target(name: "AoCCommon")
